@@ -1,0 +1,34 @@
+-users
+-countries 
+
+--company
+-materials
+    name
+-profile 
+    user
+    name 
+    logo
+    is_bary
+    is_ba7ry
+    is_customs
+
+-pricing
+    user
+    material
+    price
+    type(sha7n bary \ ba7ry \ t5les gomroky)
+
+--consumer
+-profile
+    user
+    name
+    profile_picture
+
+-orders 
+    company_user 
+    user
+    from(country)
+    to(country)
+    weight
+    type(sha7n bary-ba7ry-t5les gomroky)
+    material
