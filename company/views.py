@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from . import serializers, models
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -29,7 +30,7 @@ def companies_for_(request):
 
 @api_view(["GET", "PUT"])
 def company(request, id):
-    company = models.Company.objects.get(id=id)
+    company = get_object_or_404(models.Company, id=id)
     if request.method == "GET":
         serializer = serializers.CompanySerializer(company)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -56,9 +57,9 @@ def company(request, id):
 
 
 @api_view(["POST", "DELETE", "PUT", "GET"])
-def company_pricing(request, id):
+def company_pricing(request, id=None):
     if request.method == "POST":
-        serializer = serializers.CompanyPricingSerializer(data=request.data)
+        serializer = serializers.CompanyPricingSerializer(data=request.data, many=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

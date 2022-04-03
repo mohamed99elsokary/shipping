@@ -38,18 +38,16 @@ def login(request):
     return Response(data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["POST"])
-def company_orders(request):
-    company_id = request.data.get("company")
-    orders = models.Order.objects.filter(company_id=company_id)
+@api_view(["GET"])
+def company_orders(request, id):
+    orders = models.Order.objects.filter(company_id=id)
     serializer = serializers.OrdersSerializer(orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(["POST"])
-def consumer_orders(request):
-    consumer_id = request.data.get("consumer")
-    orders = models.Order.objects.filter(consumer_id=consumer_id)
+@api_view(["GET"])
+def consumer_orders(request, id):
+    orders = models.Order.objects.filter(consumer_id=id)
     serializer = serializers.OrdersSerializer(orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

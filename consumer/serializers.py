@@ -16,7 +16,6 @@ class CompanyRegisterSerializer(serializers.ModelSerializer):
         exclude = ("user",)
         extra_kwargs = {
             "user": {"validators": []},
-            "logo": {"read_only": True},
         }
 
     def validate(self, data):
@@ -30,14 +29,8 @@ class CompanyRegisterSerializer(serializers.ModelSerializer):
         user = User(username=validated_data["username"])
         user.set_password(password)
         user.save()
-        company = company_models.Company.objects.create(
-            name=validated_data["name"],
-            user=user,
-            is_customs_clearance=validated_data["is_customs_clearance"],
-            is_land_shipping=validated_data["is_land_shipping"],
-            is_sea_freight=validated_data["is_sea_freight"],
-        )
-        return company
+        validated_data.pop("username")
+        return company_models.Company.objects.create(user=user, **validated_data)
 
 
 class ConsumerRegisterSerializer(serializers.ModelSerializer):
@@ -59,11 +52,8 @@ class ConsumerRegisterSerializer(serializers.ModelSerializer):
         user = User(username=validated_data["username"])
         user.set_password(password)
         user.save()
-        consumer = models.Consumer.objects.create(
-            user=user,
-            name=validated_data["name"],
-        )
-        return consumer
+        password = validated_data.pop("username")
+        return models.Consumer.objects.create(user=user, **validated_data)
 
 
 class ConsumerSerializer(serializers.ModelSerializer):

@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-*2u@_^x(67r%j49le+fuuzq#!+bis1v+kpmqs(+ux+i3k1xxa*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -123,3 +123,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+from django.core.management.commands.runserver import Command as runserver
+
+runserver.default_port = "8001"
