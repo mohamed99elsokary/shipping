@@ -43,13 +43,13 @@ def company(request, id):
         is_land_shipping = request.data.get("is_land_shipping")
         is_sea_freight = request.data.get("is_sea_freight")
         is_customs_clearance = request.data.get("is_customs_clearance")
-        if name != None and name != "":
+        if name not in [None, ""]:
             company.name = name
-        if is_land_shipping != None and is_land_shipping != "":
+        if is_land_shipping not in [None, ""]:
             company.is_land_shipping = is_land_shipping
-        if is_sea_freight != None and is_sea_freight != "":
+        if is_sea_freight not in [None, ""]:
             company.is_sea_freight = is_sea_freight
-        if is_customs_clearance != None and is_customs_clearance != "":
+        if is_customs_clearance not in [None, ""]:
             company.is_customs_clearance = is_customs_clearance
         company.save()
         serializer = serializers.CompanySerializer(company)

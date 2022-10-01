@@ -19,8 +19,7 @@ class CompanyRegisterSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
-        user = User.objects.filter(username=data["username"])
-        if user:
+        if user := User.objects.filter(username=data["username"]):
             raise serializers.ValidationError({"error": "username is taken already"})
         return data
 
@@ -42,8 +41,7 @@ class ConsumerRegisterSerializer(serializers.ModelSerializer):
         exclude = ("user",)
 
     def validate(self, data):
-        user = User.objects.filter(username=data["username"])
-        if user:
+        if user := User.objects.filter(username=data["username"]):
             raise serializers.ValidationError({"error": "username is taken already"})
         return data
 
@@ -67,8 +65,9 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(username=data["username"], password=data["password"])
-        if user:
+        if user := authenticate(
+            username=data["username"], password=data["password"]
+        ):
             self.consumer = None
             self.company = None
             try:
@@ -78,7 +77,6 @@ class LoginSerializer(serializers.Serializer):
                 company = company_models.Company.objects.get(user=user)
                 self.company = company
         else:
-
             raise serializers.ValidationError(
                 {"error": "Invalid Username And Password"}
             )
